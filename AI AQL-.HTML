@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抽样信息计算器</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>抽样信息计算器</h1>
+    <label for="productCount">请输入产品数量:</label>
+    <input type="number" id="productCount" min="1" />
+    <button onclick="getSamplingInfo()">计算</button>
+    <div id="result"></div>
+
+    <script>
+        function getSamplingInfo() {
+            const valueMapping = {
+                'A': 2, 'B': 3, 'C': 5, 'D': 8,
+                'E': 13, 'F': 20, 'G': 32, 'H': 50,
+                'J': 80, 'K': 125, 'L': 200, 'M': 315
+            };
+
+            const productCount = parseInt(document.getElementById("productCount").value);
+            let resultText = "";
+            let resultValues = [null, null, null, null, null, null, null];
+
+            if (productCount < 2 || productCount > 35000) {
+                resultText = "产品数量超出范围";
+            } else if (productCount <= 8) {
+                resultText = "S1=A, S2=A, S3=A, S4=A, 抽查数量=A, Ac=0, Re=0";
+                resultValues = [valueMapping['A'], valueMapping['A'], valueMapping['A'], valueMapping['A'], valueMapping['A'], 0, 0];
+            } else if (productCount <= 15) {
+                resultText = "S1=A, S2=A, S3=A, S4=A, 抽查数量=A, Ac=0, Re=0";
+                resultValues = [valueMapping['A'], valueMapping['A'], valueMapping['A'], valueMapping['A'], valueMapping['A'], 0, 0];
+            } else if (productCount <= 25) {
+                resultText = "S1=A, S2=A, S3=B, S4=A, 抽查数量=C, Ac=0, Re=0";
+                resultValues = [valueMapping['A'], valueMapping['A'], valueMapping['B'], valueMapping['A'], valueMapping['C'], 0, 0];
+            } else if (productCount <= 50) {
+                resultText = "S1=A, S2=B, S3=B, S4=C, 抽查数量=D, Ac=0, Re=0";
+                resultValues = [valueMapping['A'], valueMapping['B'], valueMapping['B'], valueMapping['C'], valueMapping['D'], 0, 0];
+            } else if (productCount <= 90) {
+                resultText = "S1=B, S2=B, S3=C, S4=C, 抽查数量=E, Ac=0, Re=1";
+                resultValues = [valueMapping['B'], valueMapping['B'], valueMapping['C'], valueMapping['C'], valueMapping['E'], 0, 1];
+            } else if (productCount <= 150) {
+                resultText = "S1=B, S2=B, S3=C, S4=D, 抽查数量=F, Ac=0, Re=2";
+                resultValues = [valueMapping['B'], valueMapping['B'], valueMapping['C'], valueMapping['D'], valueMapping['F'], 0, 2];
+            } else if (productCount <= 280) {
+                resultText = "S1=B, S2=C, S3=D, S4=E, 抽查数量=G, Ac=0, Re=3";
+                resultValues = [valueMapping['B'], valueMapping['C'], valueMapping['D'], valueMapping['E'], valueMapping['G'], 0, 3];
+            } else if (productCount <= 500) {
+                resultText = "S1=B, S2=C, S3=D, S4=E, 抽查数量=H, Ac=1, Re=5";
+                resultValues = [valueMapping['B'], valueMapping['C'], valueMapping['D'], valueMapping['E'], valueMapping['H'], 1, 5];
+            } else if (productCount <= 1200) {
+                resultText = "S1=C, S2=C, S3=E, S4=F, 抽查数量=J, Ac=2, Re=7";
+                resultValues = [valueMapping['C'], valueMapping['C'], valueMapping['E'], valueMapping['F'], valueMapping['J'], 2, 7];
+            } else if (productCount <= 3200) {
+                resultText = "S1=C, S2=D, S3=E, S4=G, 抽查数量=K, Ac=3, Re=10";
+                resultValues = [valueMapping['C'], valueMapping['D'], valueMapping['E'], valueMapping['G'], valueMapping['K'], 3, 10];
+            } else if (productCount <= 10000) {
+                resultText = "S1=C, S2=D, S3=F, S4=G, 抽查数量=L, Ac=5, Re=14";
+                resultValues = [valueMapping['C'], valueMapping['D'], valueMapping['F'], valueMapping['G'], valueMapping['L'], 5, 14];
+            } else if (productCount <= 35000) {
+                resultText = "S1=C, S2=D, S3=F, S4=H, 抽查数量=M, Ac=7, Re=21";
+                resultValues = [valueMapping['C'], valueMapping['D'], valueMapping['F'], valueMapping['H'], valueMapping['M'], 7, 21];
+            }
+
+            const resultDiv = document.getElementById("result");
+            if (resultValues[0] !== null) {
+                resultDiv.innerHTML = `当前产品数在 ${productCount}，结果为:<br>
+                抽查数量=${resultValues[4]}，Ac=${resultValues[5]}, Re=${resultValues[6]}<br>
+                S1=${resultValues[0]}<br>
+                S2=${resultValues[1]}<br>
+                S3=${resultValues[2]}<br>
+                S4=${resultValues[3]}`;
+            } else {
+                resultDiv.innerHTML = resultText;
+            }
+        }
+    </script>
+</body>
+</html>
